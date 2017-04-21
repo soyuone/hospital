@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>hospital</display-name>
+
+	<!-- web.xml的加载顺序是：context-param -> listener -> filter -> servlet -->
+	<!-- JSP,Servlet,Listener和Filter都必须运行在Web应用中 -->
+
+	<!-- 以声明式方式创建spring容器，ContextLoaderListener监听器实现ServletContextListener接口;自动查找*Context.xml文件 -->
+	<!-- ServletContextListener用于监听web应用的启动和关闭 -->
+	<!-- context-param元素声明应用范围内的初始化参数 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/application-right.xml</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- servlet生命周期： -->
+	<!-- 1.创建servlet实例 -->
+	<!-- 2.web容器调用init方法对servlet进行初始化 -->
+	<!-- 3.使用service方法响应用户请求 -->
+	<!-- 4.调用destroy销毁servlet -->
+
+	<!-- 在标准的MVC模式中，Servlet仅作为控制器使用，对于遵循MVC模式的Java EE应用而言，JSP仅作为表现层技术 -->
+	<!-- 所有用户请求都发送给Servlet，Servlet调用Model来处理用户请求，并调用JSP来呈现处理结果；或者Servlet直接调用JSP将应用的状态数据呈现给用户 -->
+
+	<!-- ContextLoaderListener初始化的上下文加载的Bean是对于整个应用程序共享的，不管是使用什么表现层技术，一般如DAO层、Service层Bean -->
+	<!-- DispatcherServlet初始化的上下文加载的Bean是只对Spring Web MVC有效的Bean，如Controller、HandlerMapping、HandlerAdapter等等，该初始化上下文只加载Web相关组件 -->
+
+	<!-- load-on-startup：表示启动容器时创建该Servlet实例 -->
+	<!-- http://blog.csdn.net/legend_x/article/details/32713817 -->
+	<!-- url-pattern：表示哪些请求交给Spring Web MVC处理，“/”是用来配置servlet映射的url，也可以如“*.html”表示拦截所有以html为扩展名的请求 -->
+	<!-- /不会匹配到*.jsp(会匹配到/login这样的路径型url)，不会进入DispatcherServlet类;/*会匹配所有url -->
+	<servlet>
+		<servlet-name>dispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/classes/dispatcher.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- http://blog.csdn.net/u013803262/article/details/51861687 -->
+	<!-- 该过滤器主要目的是防止web开发中出现的乱码问题，如果为get请求，spring提供的这个过滤器不会起作用 -->
+	<!-- 因为get方法是将参数直接跟在了请求的url上，而post方法则是将请求的参数放在报文内部 -->
+	<filter>
+		<filter-name>encodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<!-- 通过init-param为该Filter配置参数 -->
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+
+	<!-- 该Filter会拦截所有的用户请求 -->
+	<filter-mapping>
+		<filter-name>encodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<!-- HttpSession超时设置（分钟） -->
+	<!-- 可通过使用HttpSession的setMaxInactiveInterval方法明确设置单个会话对象的超时值，或者可利用session-config元素制定缺省超时值 -->
+	<!-- setMaxInactiveInterval和session-config的优先级： -->
+	<!-- 1、setMaxInactiveInterval的优先级高，如果setMaxInactiveInterval没有设置，则默认是session-config中设置的时间 -->
+	<!-- 2、setMaxInactiveInterval设置的是当前会话的失效时间，不是整个web服务的;如果session-timeout元素的值为零或负数，则表示会话将永远不会超时 -->
+	<!-- 3、setMaxInactiveInterval的参数是秒，session-config当中配置的session-timeout是分钟 -->
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<!-- http://yjhexy.iteye.com/blog/669252 -->
+	<!-- 访问静态资源 -->
+	<!-- 所有的请求进入tomcat都会流经Servlet，如果没有匹配到任何应用指定的servlet，那么就会流到默认的servlet -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.gif</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.png</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ttf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.woff</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.txt</url-pattern>
+	</servlet-mapping>
+
+	<!-- 错误页面配置 -->
+	<!-- 在web.xml中有两种配置error-page的方法，一是通过error-code来配置，二是通过exception-type来配置 -->
+	<error-page>
+		<exception-type>exception-type</exception-type>
+		<location>/WEB-INF/views/error/500.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/error/500.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/error/404.jsp</location>
+	</error-page>
+
+	<!-- 配置首页，依次寻找 -->
+	<welcome-file-list>
+		<welcome-file>login.jsp</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>

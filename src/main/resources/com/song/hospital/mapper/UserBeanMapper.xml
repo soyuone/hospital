@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.song.hospital.mapper.UserBeanMapper">
+
+	<insert id="insertUserTradition" useGeneratedKeys="true"
+		keyProperty="user.id">
+		INSERT INTO tb_user (username,password,account) VALUES
+		(#{user.username},#{user.password},#{user.account})
+	</insert>
+</mapper>

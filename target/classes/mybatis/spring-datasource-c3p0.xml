@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd  
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+	<!-- c3p0数据库连接池 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${c3p0.driverClass}" />
+		<property name="jdbcUrl" value="${c3p0.jdbcUrl}" />
+		<property name="user" value="${c3p0.user}" />
+		<property name="password" value="${c3p0.password}" />
+
+		<!-- 连接池中保留的最小连接数 -->
+		<property name="minPoolSize" value="${c3p0.minPoolSize}" />
+		<!-- 连接池中保留的最大连接数，默认值：15 -->
+		<property name="maxPoolSize" value="${c3p0.maxPoolSize}" />
+		<!-- 最大空闲时间，1800秒内未使用则连接被丢弃，若为0则永不丢弃，默认值：0 -->
+		<property name="maxIdleTime" value="${c3p0.maxIdleTime}" />
+		<!-- 当池中的连接耗尽时，c3p0一次同时获取的连接数，默认值：3 -->
+		<property name="acquireIncrement" value="${c3p0.acquireIncrement}" />
+		<property name="maxStatements" value="${c3p0.maxStatements}" />
+		<property name="initialPoolSize" value="${c3p0.initialPoolSize}" />
+		<!-- 每60秒检查连接池中的空闲连接，默认值：0 -->
+		<property name="idleConnectionTestPeriod" value="${c3p0.idleConnectionTestPeriod}" />
+		<!-- 从数据库获取新连接失败后重复尝试的次数，默认值：30 -->
+		<property name="acquireRetryAttempts" value="${c3p0.acquireRetryAttempts}" />
+		<property name="breakAfterAcquireFailure" value="${c3p0.breakAfterAcquireFailure}" />
+		<property name="testConnectionOnCheckout" value="${c3p0.testConnectionOnCheckout}" />
+	</bean>
+
+	<!-- 配置sqlSessionFactory，https://www.oschina.net/code/snippet_733736_37996 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 加载mybatis.cfg.xml文件 -->
+		<property name="configLocation" value="classpath:mybatis/mybatis.cfg.xml"></property>
+		<!-- 扫描在该包及其所有子包中以*Mapper.xml结尾的所有文件 -->
+		<!-- <property name="mapperLocations"> <value>classpath*:com/song/hospital/module/**/mapper/*Mapper.xml 
+			</value> </property> -->
+	</bean>
+
+	<!-- 自动扫描所有以@Repository标注的mapper接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="basePackage" value="com.song.hospital.module" />
+		<property name="annotationClass" value="org.springframework.stereotype.Repository" />
+	</bean>
+
+	<!-- 配置事务管理器，使用jdbc事务，http://www.cnblogs.com/xusir/p/3650522.html -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 使用@Transactional注解标注方式开启事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+</beans>

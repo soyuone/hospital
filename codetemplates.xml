@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><templates>
+<template autoinsert="true" context="overridecomment_context" deleted="false" description="Comment for overriding functions" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.overridecomment" name="overridecomment">/* (non-Jsdoc)
+ * ${see_to_overridden}
+ */</template>
+ <template autoinsert="true" context="settercomment_context" deleted="false" description="Comment for setter function" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.settercomment" name="settercomment">/**
+ * @param ${param} the ${bare_field_name} to set
+ */</template>
+ <template autoinsert="true" context="methodcomment_context" deleted="false" description="Comment for non-overriding function" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.methodcomment" name="methodcomment">/**
+ * ${tags}
+ */</template>
+ <template autoinsert="true" context="delegatecomment_context" deleted="false" description="Comment for delegate functions" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.delegatecomment" name="delegatecomment">/**
+ * ${tags}
+ * ${see_to_target}
+ */</template>
+ <template autoinsert="true" context="constructorcomment_context" deleted="false" description="Comment for created constructors" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
+ * ${tags}
+ */</template>
+ <template autoinsert="true" context="fieldcomment_context" deleted="false" description="Comment for vars" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/**
+ * 
+ */</template>
+ <template autoinsert="false" context="overridecomment_context" deleted="false" description="Comment for overriding methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.overridecomment" name="overridecomment">/** 
+ * ${see_to_overridden}
+ */</template>
+ <template autoinsert="true" context="gettercomment_context" deleted="false" description="Comment for getter function" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.gettercomment" name="gettercomment">/**
+ * @return the ${bare_field_name}
+ */</template>
+ <template autoinsert="true" context="settercomment_context" deleted="false" description="Comment for setter method" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.settercomment" name="settercomment">/**
+ * @param ${param} the ${bare_field_name} to set
+ */</template>
+ <template autoinsert="true" context="gettercomment_context" deleted="false" description="Comment for getter method" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.gettercomment" name="gettercomment">/**
+ * @return the ${bare_field_name}
+ */</template>
+ <template autoinsert="false" context="typecomment_context" deleted="false" description="Comment for created types" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.typecomment" name="typecomment">/**&lt;p&gt;
+ * Title: hospital_[子系统名称]_[模块名]
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ * Description: [描述该类概要功能介绍]
+ * &lt;/p&gt;
+ * 
+ * @author ${user}
+ * @version $$Revision$$ ${date}
+ * @author (lastest modification by $$Author$$)
+ * @since 20100901
+ * ${tags}
+ */</template>
+ <template autoinsert="true" context="methodcomment_context" deleted="false" description="Comment for non-overriding methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.methodcomment" name="methodcomment">/** &lt;p&gt;
+ * Description:[方法功能中文描述]
+ * &lt;/p&gt;
+ * 
+ * Created by [${user}] [${date}]
+ * Midified by [修改人] [修改时间]
+ *
+ * ${tags}
+ */</template>
+ <template autoinsert="true" context="typecomment_context" deleted="false" description="Comment for created types" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.typecomment" name="typecomment">/**
+ * @author ${user}
+ *
+ * ${tags}
+ */</template>
+ <template autoinsert="false" context="fieldcomment_context" deleted="false" description="Comment for fields" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.fieldcomment" name="fieldcomment">/**
+ * 
+ */</template>
+ <template autoinsert="true" context="constructorcomment_context" deleted="false" description="Comment for created constructors" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.constructorcomment" name="constructorcomment">/**
+ * ${tags}
+ */</template>
+ <template autoinsert="false" context="filecomment_context" deleted="false" description="Comment for created Java files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.filecomment" name="filecomment">/** &#13;
+* &#13;
+ * Copyright (c) 1995-2012 Wonders Information Co.,Ltd. &#13;
+ * 1518 Lianhang Rd,Shanghai 201112.P.R.C.&#13;
+ * All Rights Reserved.&#13;
+ * &#13;
+ * This software is the confidential and proprietary information of Wonders Group.&#13;
+ * (Social Security Department). You shall not disclose such&#13;
+ * Confidential Information and shall use it only in accordance with &#13;
+ * the terms of the license agreement you entered into with Wonders Group. &#13;
+ *&#13;
+ * Distributable under GNU LGPL license by gnu.org&#13;
+ */&#13;
+</template>
+<template autoinsert="true" context="delegatecomment_context" deleted="false" description="Comment for delegate methods" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.delegatecomment" name="delegatecomment">/**
+ * ${tags}
+ * ${see_to_target}
+ */</template>
+ <template autoinsert="true" context="filecomment_context" deleted="false" description="Comment for created JavaScript files" enabled="true" id="org.eclipse.wst.jsdt.ui.text.codetemplates.filecomment" name="filecomment">/**
+ * 
+ */</template>
+ </templates>
