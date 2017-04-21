@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd  
+    http://www.springframework.org/schema/aop 
+    http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+    http://www.springframework.org/schema/tx 
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+    http://www.springframework.org/schema/task  
+    http://www.springframework.org/schema/task/spring-task-4.2.xsd 
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<!-- 自动扫描指定包及其子包下所有符合条件的Bean，仅扫描@Controller标注的Bean -->
+	<context:component-scan base-package="com.song.hospital.controller">
+		<context:include-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 上传文件 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 编码格式，默认值：ISO-8859-1 -->
+		<property name="defaultEncoding" value="UTF-8" />
+		<!-- 最大上传文件大小（bytes），此处限制100M，A value of -1 indicates no maximum -->
+		<property name="maxUploadSize">
+			<value>104857600</value>
+		</property>
+		<!-- 上传时的最大内存占用，默认值：10240 -->
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+
+	<!-- DefaultAnnotationHandlerMapping已过期 -->
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+	</bean>
+
+	<!-- AnnotationMethodHandlerAdapter已过期 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<ref bean="mappingJackson2HttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<!-- @ResponseBody -->
+	<!-- http://blog.csdn.net/qh_java/article/details/51654783 -->
+	<!-- http://blog.csdn.net/tang745163962/article/details/41822905 -->
+	<!-- http://blog.csdn.net/zljjava/article/details/43925847 -->
+	<!-- MappingJacksonHttpMessageConverter已过期 -->
+	<bean id="mappingJackson2HttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 视图解析器，http://blog.csdn.net/json20080301/article/details/12620547 http://www.cnblogs.com/Sunnor/p/6130380.html -->
+	<!-- prefix和suffix：所查找视图页面url的前缀和后缀（前缀+逻辑视图名+后缀） -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>

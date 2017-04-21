@@ -56,44 +56,31 @@
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
 
+	<!-- 以声明式方式创建spring容器，ContextLoaderListener监听器实现ServletContextListener接口，ServletContextListener用于监听web应用的启动和关闭 -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
-	<!-- servlet生命周期： -->
-	<!-- 1.创建servlet实例 -->
-	<!-- 2.web容器调用init方法对servlet进行初始化 -->
-	<!-- 3.使用service方法响应用户请求 -->
-	<!-- 4.调用destroy销毁servlet -->
-
-	<!-- 在标准的MVC模式中，Servlet仅作为控制器使用，对于遵循MVC模式的Java EE应用而言，JSP仅作为表现层技术 -->
-	<!-- 所有用户请求都发送给Servlet，Servlet调用Model来处理用户请求，并调用JSP来呈现处理结果；或者Servlet直接调用JSP将应用的状态数据呈现给用户 -->
-
-	<!-- ContextLoaderListener初始化的上下文加载的Bean是对于整个应用程序共享的，不管是使用什么表现层技术，一般如DAO层、Service层Bean -->
-	<!-- DispatcherServlet初始化的上下文加载的Bean是只对Spring Web MVC有效的Bean，如Controller、HandlerMapping、HandlerAdapter等等，该初始化上下文只加载Web相关组件 -->
-
-	<!-- load-on-startup：表示启动容器时创建该Servlet实例 -->
-	<!-- http://blog.csdn.net/legend_x/article/details/32713817 -->
-	<!-- url-pattern：表示哪些请求交给Spring Web MVC处理，“/”是用来配置servlet映射的url，也可以如“*.html”表示拦截所有以html为扩展名的请求 -->
-	<!-- /不会匹配到*.jsp(会匹配到/login这样的路径型url)，不会进入DispatcherServlet类;/*会匹配所有url -->
+	<!-- ContextLoaderListener初始化的上下文加载的Bean对整个应用程序所共享，一般如Dao层、Service层的Bean -->
+	<!-- DispatcherServlet初始化的上下文加载的Bean只对Spring web mvc有效，如Controller、HandlerMapping、HandlerAdapter等，只加载web相关组件 -->
+	<!-- load-on-startup表示启动容器时创建该Servlet实例 -->
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>/WEB-INF/classes/dispatcher.xml</param-value>
+			<param-value>classpath:spring/spring-mvc.xml</param-value>
 		</init-param>
-		<load-on-startup>2</load-on-startup>
+		<load-on-startup>1</load-on-startup>
 	</servlet>
 
+	<!-- 不会匹配静态资源，http://blog.csdn.net/legend_x/article/details/32713817 -->
 	<servlet-mapping>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
-	<!-- http://blog.csdn.net/u013803262/article/details/51861687 -->
-	<!-- 该过滤器主要目的是防止web开发中出现的乱码问题，如果为get请求，spring提供的这个过滤器不会起作用 -->
-	<!-- 因为get方法是将参数直接跟在了请求的url上，而post方法则是将请求的参数放在报文内部 -->
+	<!-- 解决POST请求时的字符乱码，http://blog.csdn.net/u013803262/article/details/51861687 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -108,26 +95,24 @@
 		</init-param>
 	</filter>
 
-	<!-- 该Filter会拦截所有的用户请求 -->
+	<!-- 该filter会拦截所有的用户请求 -->
 	<filter-mapping>
 		<filter-name>encodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- HttpSession超时设置（分钟） -->
-	<!-- 可通过使用HttpSession的setMaxInactiveInterval方法明确设置单个会话对象的超时值，或者可利用session-config元素制定缺省超时值 -->
+	<!-- HttpSession超时设置，可使用HttpSession的setMaxInactiveInterval设置单个会话的超时值，或者用session-config元素设置缺省超时值 -->
 	<!-- setMaxInactiveInterval和session-config的优先级： -->
 	<!-- 1、setMaxInactiveInterval的优先级高，如果setMaxInactiveInterval没有设置，则默认是session-config中设置的时间 -->
-	<!-- 2、setMaxInactiveInterval设置的是当前会话的失效时间，不是整个web服务的;如果session-timeout元素的值为零或负数，则表示会话将永远不会超时 -->
-	<!-- 3、setMaxInactiveInterval的参数是秒，session-config当中配置的session-timeout是分钟 -->
+	<!-- 2、setMaxInactiveInterval设置的是当前会话的失效时间，不是整个web服务。如果session-timeout元素的值为零或负数，则表示会话将永远不会超时 -->
+	<!-- 3、setMaxInactiveInterval的参数是秒，session-config中session-timeout元素参数是分钟 -->
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
 
-	<!-- 错误页面配置 -->
-	<!-- 在web.xml中有两种配置error-page的方法，一是通过error-code来配置，二是通过exception-type来配置 -->
+	<!-- 错误页面，在web.xml中有两种配置error-page的方法，一是通过error-code来配置，二是通过exception-type来配置 -->
 	<error-page>
-		<exception-type>exception-type</exception-type>
+		<exception-type>java.lang.Throwable</exception-type>
 		<location>/WEB-INF/views/error/500.jsp</location>
 	</error-page>
 	<error-page>
@@ -141,7 +126,6 @@
 
 	<!-- 配置首页，依次寻找 -->
 	<welcome-file-list>
-		<welcome-file>login.jsp</welcome-file>
 		<welcome-file>index.jsp</welcome-file>
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.html</welcome-file>
