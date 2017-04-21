@@ -5,16 +5,56 @@
 	version="3.0">
 	<display-name>hospital</display-name>
 
-	<!-- web.xml的加载顺序是：context-param -> listener -> filter -> servlet -->
-	<!-- JSP,Servlet,Listener和Filter都必须运行在Web应用中 -->
+	<!-- 激活default servlet以访问静态资源 -->
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.gif</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.png</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.jpg</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.js</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.ttf</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.woff</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.txt</url-pattern>
+	</servlet-mapping>
 
-	<!-- 以声明式方式创建spring容器，ContextLoaderListener监听器实现ServletContextListener接口;自动查找*Context.xml文件 -->
-	<!-- ServletContextListener用于监听web应用的启动和关闭 -->
-	<!-- context-param元素声明应用范围内的初始化参数 -->
+	<!-- web.xml加载顺序：context-param -> listener -> filter -> servlet，jsp、servlet、listener、filter都必须运行在web应用中 -->
+
+	<!-- context-param声明应用范围内的初始化参数 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/classes/application-right.xml</param-value>
+		<param-value>classpath:spring/applicationContext.xml</param-value>
 	</context-param>
+
+	<!-- 防止java.beans.Introspector导致的内存泄漏，http://blog.csdn.net/jadyer/article/details/11991457 -->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -83,46 +123,6 @@
 	<session-config>
 		<session-timeout>30</session-timeout>
 	</session-config>
-
-	<!-- http://yjhexy.iteye.com/blog/669252 -->
-	<!-- 访问静态资源 -->
-	<!-- 所有的请求进入tomcat都会流经Servlet，如果没有匹配到任何应用指定的servlet，那么就会流到默认的servlet -->
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.css</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.gif</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.png</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.jpg</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.js</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.html</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.ttf</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.woff</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>default</servlet-name>
-		<url-pattern>*.txt</url-pattern>
-	</servlet-mapping>
 
 	<!-- 错误页面配置 -->
 	<!-- 在web.xml中有两种配置error-page的方法，一是通过error-code来配置，二是通过exception-type来配置 -->

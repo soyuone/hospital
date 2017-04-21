@@ -12,12 +12,6 @@
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
 
-	<!-- 自动扫描指定包及其子包下所有符合条件的Bean，排除@Controller标注的Bean，扫描@Component、@Service、@Repository标注的Bean -->
-	<context:component-scan base-package="com.song.hospital">
-		<context:exclude-filter type="annotation"
-			expression="org.springframework.stereotype.Controller" />
-	</context:component-scan>
-
 	<!-- 属性占位符配置器-容器后处理器：在容器实例化其他Bean之前会自动读取配置文件，ApplicationContext会自动检测在容器中的容器后处理器并自动注册它们 -->
 	<!-- 多个属性占位符配置器，http://blog.csdn.net/sunhuwh/article/details/15813103 -->
 	<bean id="propertyConfigurer"
@@ -29,6 +23,12 @@
 			</list>
 		</property>
 	</bean>
+
+	<!-- 自动扫描指定包及其子包下所有符合条件的Bean，排除@Controller标注的Bean，扫描@Component、@Service、@Repository标注的Bean -->
+	<context:component-scan base-package="com.song.hospital">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
 
 	<!-- 加载classes中的指定文件 -->
 	<!-- 使用c3p0连接池 -->

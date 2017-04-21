@@ -43,14 +43,15 @@
 		<!-- 加载mybatis.cfg.xml文件 -->
 		<property name="configLocation" value="classpath:mybatis/mybatis.cfg.xml"></property>
 		<!-- 扫描在该包及其所有子包中以*Mapper.xml结尾的所有文件 -->
-		<!-- <property name="mapperLocations"> <value>classpath*:com/song/hospital/module/**/mapper/*Mapper.xml 
-			</value> </property> -->
+		<property name="mapperLocations">
+			<value>classpath*:com/song/hospital/mapper/*Mapper.xml</value>
+		</property>
 	</bean>
 
 	<!-- 自动扫描所有以@Repository标注的mapper接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-		<property name="basePackage" value="com.song.hospital.module" />
+		<property name="basePackage" value="com.song.hospital" />
 		<property name="annotationClass" value="org.springframework.stereotype.Repository" />
 	</bean>
 
