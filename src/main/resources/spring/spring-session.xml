@@ -16,7 +16,7 @@
 		<property name="maxInactiveIntervalInSeconds" value="172800" />
 	</bean>
 
-	<!-- 让spring-session不再执行config命令，http://blog.csdn.net/xiao__gui/article/details/52706243 
-		<util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP" 
-		/> -->
+	<!-- 让spring-session不再执行config命令，http://blog.csdn.net/xiao__gui/article/details/52706243 -->
+<!-- 	<util:constant
+		static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP" /> -->
 </beans>

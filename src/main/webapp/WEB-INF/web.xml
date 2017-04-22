@@ -80,6 +80,21 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- SpringSession+Redis实现分布式会话，http://dorole.com/1422/ https://my.oschina.net/piaofudeyu/blog/552402 -->
+	<filter>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<!-- filter-mapping中的dispatcher元素，http://hintcnuie.iteye.com/blog/226251/ 
+		http://www.cnblogs.com/xrq730/p/4929029.html -->
+	<filter-mapping>
+		<filter-name>springSessionRepositoryFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>ERROR</dispatcher>
+	</filter-mapping>
+
 	<!-- Druid数据库连接池，https://github.com/alibaba/druid/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98 
 		WebStatFilter配置，https://github.com/alibaba/druid/wiki/%E9%85%8D%E7%BD%AE_%E9%85%8D%E7%BD%AEWebStatFilter -->
 	<filter>
@@ -98,6 +113,7 @@
 			<param-value>false</param-value>
 		</init-param>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>DruidWebStatFilter</filter-name>
 		<url-pattern>/*</url-pattern>

@@ -39,10 +39,9 @@
 	</context:component-scan>
 
 	<!-- 加载classes中的指定文件 -->
-	<!-- 使用c3p0连接池 -->
 	<import resource="classpath:mybatis/spring-datasource-druid.xml" />
-<!-- 	<import resource="classpath:spring/spring-redis.xml" />
-	<import resource="classpath:spring/spring-session.xml" /> -->
+	<import resource="classpath:spring/spring-redis.xml" />
+	<import resource="classpath:spring/spring-session.xml" />
 
 	<!-- NoSuchBeanDefinitionException: No qualifying bean of type [org.springframework.scheduling.TaskScheduler] 
 		is defined，http://blog.csdn.net/oarsman/article/details/52801877 -->
