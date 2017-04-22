@@ -2,6 +2,8 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:util="http://www.springframework.org/schema/util"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans 
     http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
@@ -10,7 +12,13 @@
     http://www.springframework.org/schema/aop 
     http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
     http://www.springframework.org/schema/tx 
-    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+    http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd
+    http://www.springframework.org/schema/task  
+    http://www.springframework.org/schema/task/spring-task-4.2.xsd 
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.2.xsd">
 
 	<!-- Druid数据库连接池，http://www.open-open.com/lib/view/open1430558786084.html 
 		http://www.cnblogs.com/wuyun-blog/p/5679073.html -->
@@ -30,7 +38,7 @@
 		<property name="minIdle" value="${druid.minIdle}" />
 		<!-- 获取连接时等待最大等待时间（毫秒） -->
 		<property name="maxWait" value="${druid.maxWait}" />
-		<!-- 1、检测需要关闭的空闲连接的间隔时间（毫秒）。2、testWhileIdle的判断依据。默认值：60 * 1000L -->
+		<!-- 1、检测需要关闭的空闲连接的间隔时间（毫秒）.2、testWhileIdle的判断依据. 默认值：60 * 1000L -->
 		<property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
 		<!-- 一个连接在池中的最小生存时间（毫秒），默认值：1000L * 60L * 30L -->
 		<property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
@@ -88,15 +96,14 @@
 		<property name="configLocation" value="classpath:mybatis/mybatis.cfg.xml"></property>
 		<!-- 扫描在该包及其所有子包中以*Mapper.xml结尾的所有文件 -->
 		<property name="mapperLocations">
-			<value>classpath*:mapper/modules/**/*Mapper.xml
-			</value>
+			<value>classpath*:com/song/hospital/mapper/*Mapper.xml</value>
 		</property>
 	</bean>
 
 	<!-- 自动扫描所有以@Repository标注的mapper接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-		<property name="basePackage" value="com.song.springsession.modules" />
+		<property name="basePackage" value="com.song.hospital" />
 		<property name="annotationClass" value="org.springframework.stereotype.Repository" />
 	</bean>
 
@@ -118,8 +125,7 @@
 		scope="prototype">
 		<property name="patterns">
 			<list>
-				<value>com.song.springsession.modules.*..service..*ServiceImpl
-				</value>
+				<value>com.song.hospital.service.impl.*ServiceImpl</value>
 			</list>
 		</property>
 	</bean>
