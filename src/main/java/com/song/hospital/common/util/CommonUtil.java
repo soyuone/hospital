@@ -7,6 +7,9 @@ import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * 常用工具类
+ */
 public class CommonUtil {
 
 	public final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -32,14 +35,14 @@ public class CommonUtil {
 	public static final String ENVIRONMENT = "Environment";
 
 	/**
-	 * 功能描述：获取当前日期时间格式化字符串，默认yyyy-MM-dd HH:mm:ss格式
+	 * 获取当前日期时间格式化字符串，默认yyyy-MM-dd HH:mm:ss格式
 	 */
 	public static String getCurrentDateTime() {
 		return getCurrentDateTime(DEFAULT_DATE_FORMAT);
 	}
 
 	/**
-	 * 功能描述：获取当前日期时间格式化字符串
+	 * 获取当前日期时间格式化字符串
 	 * 
 	 * @param dateFormat 日期时间格式
 	 */
@@ -75,7 +78,7 @@ public class CommonUtil {
 	}
 
 	/**
-	 * 生成32位的UUID
+	 * 获取32位的UUID，并去掉'-'
 	 */
 	public static String generateId() {
 		UUID uuid = UUID.randomUUID();

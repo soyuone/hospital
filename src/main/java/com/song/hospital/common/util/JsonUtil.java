@@ -5,6 +5,9 @@ import java.util.List;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * json工具类
+ */
 public class JsonUtil {
 
 	/**

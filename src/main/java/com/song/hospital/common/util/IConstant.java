@@ -1,5 +1,8 @@
 package com.song.hospital.common.util;
 
+/**
+ * 常量字典
+ */
 public class IConstant {
 
 	public final static String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -103,6 +106,6 @@ public class IConstant {
 	public static final int SUCCESS_MAIL_NOTRIGISTER = 224; // 224邮箱可以使用
 
 	public static final int SUCCESS_USENAME_NOTRIGISTER = 234; // 234用户名可以使用
-	
+
 	public static final String SESSION_USERVO_KEY_PREFIX = "session:uservo:";
 }

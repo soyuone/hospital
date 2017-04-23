@@ -80,6 +80,17 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
+	<!-- 自定义filter，预处理和后处理 -->
+	<filter>
+		<filter-name>preProcessFilter</filter-name>
+		<filter-class>com.song.hospital.common.filter.PreProcessFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>preProcessFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 	<!-- SpringSession+Redis实现分布式会话，http://dorole.com/1422/ https://my.oschina.net/piaofudeyu/blog/552402 -->
 	<filter>
 		<filter-name>springSessionRepositoryFilter</filter-name>

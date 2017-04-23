@@ -3,6 +3,9 @@ package com.song.hospital.common.util;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * md5工具类
+ */
 public class MD5Util {
 
 	/**
@@ -14,7 +17,7 @@ public class MD5Util {
 	}
 
 	/**
-	 * 对文本执行md5摘要加密，此算法与 MySQL、javaScript生成的md5摘要进行过一致性对比
+	 * 对文本进行md5加密，此算法与 MySQL、javaScript生成的md5摘要进行过一致性对比
 	 * 
 	 * @param plainText 待加密文本
 	 * @return 加密后的密码，返回值中的字母为小写

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.song.hospital.common.controller.ControllerBase;
 import com.song.hospital.common.util.CommonUtil;
 import com.song.hospital.common.util.IConstant;
 import com.song.hospital.common.util.MD5Util;
@@ -39,7 +40,7 @@ import com.song.hospital.vo.UserVO;
  */
 @Controller
 @RequestMapping("api/user")
-public class UserController {
+public class UserController extends ControllerBase {
 
 	private Logger log = LoggerFactory.getLogger(UserController.class);
 

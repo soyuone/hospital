@@ -15,7 +15,9 @@ public class ResultInfo {
 		this.msg = msg;
 	}
 
-	// 创建一个空消息对象
+	/**
+	 * 创建一个空消息对象
+	 */
 	public static ResultInfo newResultInfo() {
 		return new ResultInfo();
 	}
