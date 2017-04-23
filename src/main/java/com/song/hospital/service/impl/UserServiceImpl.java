@@ -1,5 +1,7 @@
 package com.song.hospital.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -45,6 +47,11 @@ public class UserServiceImpl implements UserService {
 			throw new RuntimeException();
 		}
 		return num;
+	}
+
+	@Override
+	public List<UserBean> getUserByParamMap(UserBean user) throws Exception {
+		return userMapper.getUserByParamMap(user);
 	}
 
 }

@@ -2,6 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.song.hospital.mapper.UserMapper">
 
+	<!-- 自定义结果集，jdbcType（数据库中字段类型）与javaType（代码中数据类型）对应关系：http://ysj5125094.iteye.com/blog/2185024/ -->
+	<resultMap type="com.song.hospital.entity.UserBean" id="userMap">
+		<id property="id" column="id" jdbcType="INTEGER" />
+		<result property="userid" column="userid" jdbcType="VARCHAR" />
+		<result property="username" column="username" jdbcType="VARCHAR" />
+		<result property="realname" column="realname" jdbcType="VARCHAR" />
+		<result property="email" column="email" jdbcType="VARCHAR" />
+		<result property="birthday" column="birthday" jdbcType="DATE" />
+		<result property="createtime" column="createtime" jdbcType="TIMESTAMP" />
+		<result property="password" column="password" jdbcType="VARCHAR" />
+		<result property="passwordsalt" column="passwordsalt" jdbcType="VARCHAR" />
+		<result property="sex" column="sex" jdbcType="VARCHAR" />
+		<result property="version" column="version" jdbcType="INTEGER" />
+	</resultMap>
+
 	<!-- 用于select查询通用抽取的列 -->
 	<sql id="Base_Column_List">
 		id,userid,username,realname,email,birthday,createtime,password,passwordsalt,sex,version
@@ -72,5 +87,42 @@
 			<if test="version != null">#{version},</if>
 		</trim>
 	</insert>
-	
+
+	<select id="getUserByParamMap" resultMap="userMap">
+	select
+		<include refid="Base_Column_List"></include>
+		from tb_user
+		where 1=1
+		<if test="_bean != null and _bean.userid != null">
+			and userid = #{_bean.userid}
+		</if>
+		<if test="_bean != null and _bean.username != null">
+			and username = #{_bean.username}
+		</if>
+		<if test="_bean != null and _bean.realname != null">
+			and realname = #{_bean.realname}
+		</if>
+		<if test="_bean != null and _bean.email != null">
+			and email = #{_bean.email}
+		</if>
+		<if test="_bean != null and _bean.birthday != null">
+			and birthday = #{_bean.birthday}
+		</if>
+		<if test="_bean != null and _bean.createtime != null">
+			and createtime = #{_bean.createtime}
+		</if>
+		<if test="_bean != null and _bean.password != null">
+			and password = #{_bean.password}
+		</if>
+		<if test="_bean != null and _bean.passwordsalt != null">
+			and passwordsalt = #{_bean.passwordsalt}
+		</if>
+		<if test="_bean != null and _bean.sex != null">
+			and sex = #{_bean.sex}
+		</if>
+		<if test="_bean != null and _bean.version != null">
+			and version = #{_bean.version}
+		</if>
+	</select>
+
 </mapper>
