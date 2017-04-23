@@ -1,7 +1,5 @@
 package com.song.hospital.service;
 
-import java.util.Map;
-
 import com.song.hospital.entity.UserBean;
 
 /**
@@ -21,7 +19,7 @@ public interface UserService {
 
 	/**
 	 * <p>
-	 * Description:[添加用户-传统方式]
+	 * Description:[根据属性统计用户数量]
 	 * </p>
 	 * Created by [SOYU] [2017年4月23日] Midified by [修改人] [修改时间]
 	 *
@@ -29,11 +27,11 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> insertUserTradition(UserBean user) throws Exception;
+	public Integer countBy(UserBean user) throws Exception;
 
 	/**
 	 * <p>
-	 * Description:[添加用户-注解方式]
+	 * Description:[新增用户]
 	 * </p>
 	 * Created by [SOYU] [2017年4月23日] Midified by [修改人] [修改时间]
 	 *
@@ -41,6 +39,6 @@ public interface UserService {
 	 * @return
 	 * @throws Exception
 	 */
-	public Map<String, Object> insertUserUserAnnotation(UserBean user) throws Exception;
+	public Integer addUser(UserBean user) throws Exception;
 
 }

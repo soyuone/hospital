@@ -2,9 +2,75 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.song.hospital.mapper.UserMapper">
 
-	<insert id="insertUserTradition" useGeneratedKeys="true"
-		keyProperty="user.id">
-		INSERT INTO tb_user (username,password,account) VALUES
-		(#{user.username},#{user.password},#{user.account})
+	<!-- 用于select查询通用抽取的列 -->
+	<sql id="Base_Column_List">
+		id,userid,username,realname,email,birthday,createtime,password,passwordsalt,sex,version
+	</sql>
+
+	<select id="countBy" resultType="Integer">
+		select count(*) from tb_user
+		where 1=1
+		<if test="_bean != null and _bean.userid != null">
+			and userid = #{_bean.userid}
+		</if>
+		<if test="_bean != null and _bean.username != null">
+			and username = #{_bean.username}
+		</if>
+		<if test="_bean != null and _bean.realname != null">
+			and realname = #{_bean.realname}
+		</if>
+		<if test="_bean != null and _bean.email != null">
+			and email = #{_bean.email}
+		</if>
+		<if test="_bean != null and _bean.birthday != null">
+			and birthday = #{_bean.birthday}
+		</if>
+		<if test="_bean != null and _bean.createtime != null">
+			and createtime = #{_bean.createtime}
+		</if>
+		<if test="_bean != null and _bean.password != null">
+			and password = #{_bean.password}
+		</if>
+		<if test="_bean != null and _bean.passwordsalt != null">
+			and passwordsalt = #{_bean.passwordsalt}
+		</if>
+		<if test="_bean != null and _bean.sex != null">
+			and sex = #{_bean.sex}
+		</if>
+		<if test="_bean != null and _bean.version != null">
+			and version = #{_bean.version}
+		</if>
+	</select>
+
+	<!-- trim标签，http://www.cnblogs.com/qiankun-site/p/5758924.html http://cczakai.iteye.com/blog/1280866 -->
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.song.hospital.entity.UserBean">
+		insert
+		into tb_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userid != null">userid,</if>
+			<if test="username != null">username,</if>
+			<if test="realname != null">realname,</if>
+			<if test="email != null">email,</if>
+			<if test="birthday != null">birthday,</if>
+			<if test="createtime != null">createtime,</if>
+			<if test="password != null">password,</if>
+			<if test="passwordsalt != null">passwordsalt,</if>
+			<if test="sex != null">sex,</if>
+			<if test="version != null">version,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userid != null">#{userid},</if>
+			<if test="username != null">#{username},</if>
+			<if test="realname != null">#{realname},</if>
+			<if test="email != null">#{email},</if>
+			<if test="birthday != null">#{birthday},</if>
+			<if test="createtime != null">#{createtime},</if>
+			<if test="password != null">#{password},</if>
+			<if test="passwordsalt != null">#{passwordsalt},</if>
+			<if test="sex != null">#{sex},</if>
+			<if test="version != null">#{version},</if>
+		</trim>
 	</insert>
+	
 </mapper>

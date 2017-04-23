@@ -1,10 +1,9 @@
 package com.song.hospital.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.song.hospital.common.util.CommonUtil;
+import com.song.hospital.common.util.IConstant;
+import com.song.hospital.common.util.MD5Util;
+import com.song.hospital.common.util.ResultInfo;
 import com.song.hospital.entity.UserBean;
 import com.song.hospital.service.UserService;
 
@@ -40,61 +43,56 @@ public class UserController {
 
 	/**
 	 * <p>
-	 * Description:[添加用户-传统方式]
+	 * Description:[新增用户]
 	 * </p>
 	 * Created by [SOYU] [2017年4月23日] Midified by [修改人] [修改时间]
 	 *
 	 * @param request
+	 * @param response
 	 * @return
 	 */
-	@RequestMapping(value = "/register/tradition", method = RequestMethod.POST)
+	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	@ResponseBody
-	public Map<String, Object> registerByTradition(HttpServletRequest request) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		// 接收参数
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String account = request.getParameter("account");
-		try {
-			// 添加
-			UserBean user = new UserBean(username, password, Double.valueOf(account));
-			resultMap = userService.insertUserTradition(user);
-		}
-		catch (Exception e) {
-			log.error(e.getLocalizedMessage(), e);
-			resultMap.put("code", 500);
-			resultMap.put("result", "使用传统方式添加用户异常，可能是网络原因");
-		}
-		return resultMap;
-	}
+	public ResultInfo register(HttpServletRequest request, HttpServletResponse response) {
+		ResultInfo resultInfo = ResultInfo.newResultInfo();
+		// 获取参数
+		String email = request.getParameter("email");// Email
+		String password = request.getParameter("password");// 登录密码
 
-	/**
-	 * <p>
-	 * Description:[添加用户-注解方式]
-	 * </p>
-	 * Created by [SOYU] [2017年4月23日] Midified by [修改人] [修改时间]
-	 *
-	 * @param request
-	 * @return
-	 */
-	@RequestMapping(value = "/register/annotation", method = RequestMethod.POST)
-	@ResponseBody
-	public Map<String, Object> registerByAnnotation(HttpServletRequest request) {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		// 接收参数
-		String username = request.getParameter("username");
-		String password = request.getParameter("password");
-		String account = request.getParameter("account");
+		// 空值校验
+		if (StringUtils.isBlank(email) || StringUtils.isBlank(password)) {
+			resultInfo.setCode(IConstant.FAILED_DATA_NOINPUT);
+			resultInfo.setMsg("参数错误");
+			return resultInfo;
+		}
+		
 		try {
-			// 添加
-			UserBean user = new UserBean(username, password, Double.valueOf(account));
-			resultMap = userService.insertUserUserAnnotation(user);
+			UserBean user = new UserBean();
+			user.setEmail(email);
+
+			// 检查该email是否已被注册
+			if (userService.countBy(user) > 0) {
+				resultInfo.setCode(IConstant.FAILURE);
+				resultInfo.setMsg("该用户已注册");
+				return resultInfo;
+			}
+
+			String passwordsalt = email;
+			user.setUsername(CommonUtil.generateId());
+			user.setPasswordsalt(passwordsalt);// 密码盐
+			user.setPassword(MD5Util.getSaltPassword(password, passwordsalt));// 密码加盐
+
+			// 新增用户
+			if (userService.addUser(user) > 0) {
+				resultInfo.setCode(IConstant.SUCCESS);
+				resultInfo.setMsg("注册成功");
+			}
 		}
 		catch (Exception e) {
 			log.error(e.getLocalizedMessage(), e);
-			resultMap.put("code", 500);
-			resultMap.put("result", "使用注解方式添加用户异常，可能是网络原因");
+			resultInfo.setCode(IConstant.FAILURE);
+			resultInfo.setMsg("注册失败");
 		}
-		return resultMap;
+		return resultInfo;
 	}
 }

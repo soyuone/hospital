@@ -1,8 +1,5 @@
 package com.song.hospital.service.impl;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -31,35 +28,23 @@ public class UserServiceImpl implements UserService {
 	@Resource(name = "userMapper")
 	private UserMapper userMapper;
 
-	@Transactional
 	@Override
-	public Map<String, Object> insertUserTradition(UserBean user) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		if (userMapper.insertUserTradition(user) > 0) {
-			// 制造异常，验证事务回滚
-			// int a = 2 / 0;
-			resultMap.put("code", 200);
-			resultMap.put("result", "使用传统方式添加用户成功");
-		}
-		else {
-			throw new RuntimeException();
-		}
-		return resultMap;
+	public Integer countBy(UserBean user) throws Exception {
+		return userMapper.countBy(user);
 	}
 
+	// 声明式事务管理，http://blog.csdn.net/bao19901210/article/details/41724355
 	@Transactional
 	@Override
-	public Map<String, Object> insertUserUserAnnotation(UserBean user) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		if (userMapper.insertUserUserAnnotation(user) > 0) {
-			// 制造异常，验证事务回滚
-			// int a = 2 / 0;
-			resultMap.put("code", 200);
-			resultMap.put("result", "使用注解方式添加用户成功");
+	public Integer addUser(UserBean user) throws Exception {
+		if (null == user) {
+			return 0;
 		}
-		else {
+		Integer num = userMapper.addUser(user);
+		if (num <= 0) {
 			throw new RuntimeException();
 		}
-		return resultMap;
+		return num;
 	}
+
 }
