@@ -9,28 +9,29 @@ import com.song.hospital.entity.UserBean;
 
 /**
  * <p>
- * Title: blogstation_[子系统名称]_[UserMapper]
+ * Title: hospital_[子系统名称]_[用户模块]
  * </p>
  * <p>
- * Description: [UserMapper]
+ * Description: [User Mapper]
  * </p>
  * 
- * @author songyushi
- * @version $Revision$ 2017年2月17日
+ * @author SOYU
+ * @version $Revision$ 2017年4月23日
  * @author (lastest modification by $Author$)
  * @since 20100901
  */
-@Repository("userBeanMapper")
-public interface UserBeanMapper {
+@Repository("userMapper")
+public interface UserMapper {
 
 	/**
 	 * <p>
 	 * Description:[添加用户-传统方式]
 	 * </p>
-	 * Created by [songyushi] [2017年2月17日] Midified by [修改人] [修改时间]
+	 * Created by [SOYU] [2017年4月23日] Midified by [修改人] [修改时间]
 	 *
 	 * @param user
 	 * @return
+	 * @throws Exception
 	 */
 	public int insertUserTradition(@Param("user") UserBean user) throws Exception;
 
@@ -38,7 +39,7 @@ public interface UserBeanMapper {
 	 * <p>
 	 * Description:[添加用户-注解方式]
 	 * </p>
-	 * Created by [songyushi] [2017年2月17日] Midified by [修改人] [修改时间]
+	 * Created by [SOYU] [2017年4月23日] Midified by [修改人] [修改时间]
 	 *
 	 * @param user
 	 * @return

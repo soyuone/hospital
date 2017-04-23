@@ -1,18 +1,17 @@
 package com.song.hospital.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * <p>
- * Title: blogstation_[子系统名称]_[UserBean]
+ * Title: hospital_[子系统名称]_[用户模块]
  * </p>
  * <p>
- * Description: [UserBean]
+ * Description: [User Bean]
  * </p>
  * 
- * @author songyushi
- * @version $Revision$ 2017年2月17日
+ * @author SOYU
+ * @version $Revision$ 2017年4月23日
  * @author (lastest modification by $Author$)
  * @since 20100901
  */
