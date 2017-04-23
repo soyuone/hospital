@@ -48,9 +48,7 @@ public class CommonUtil {
 	}
 
 	/**
-	 * 功能描述：随机获取6位纯数字
-	 * 
-	 * @param
+	 * 随机获取6位纯数字
 	 */
 	public static String getRandom() {
 		int code = 0;
@@ -76,7 +74,9 @@ public class CommonUtil {
 		return null;
 	}
 
-	/* 生成32位的UUID */
+	/**
+	 * 生成32位的UUID
+	 */
 	public static String generateId() {
 		UUID uuid = UUID.randomUUID();
 		String id = uuid.toString();
