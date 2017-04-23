@@ -178,15 +178,15 @@
 	<!-- 错误页面，在web.xml中有两种配置error-page的方法，一是通过error-code来配置，二是通过exception-type来配置 -->
 	<error-page>
 		<exception-type>java.lang.Throwable</exception-type>
-		<location>/WEB-INF/views/error/500.jsp</location>
+		<location>/500.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>500</error-code>
-		<location>/WEB-INF/views/error/500.jsp</location>
+		<location>/500.jsp</location>
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
-		<location>/WEB-INF/views/error/404.jsp</location>
+		<location>/404.jsp</location>
 	</error-page>
 
 	<!-- 配置首页，依次寻找 -->
