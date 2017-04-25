@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+	<!-- 线程池，http://blog.csdn.net/pzw_0612/article/details/48211417 http://blog.csdn.net/groovyobject/article/details/5498775 
+		http://blog.csdn.net/chszs/article/details/8219189 -->
+	<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 线程池的线程数量，默认值：1 -->
+		<property name="corePoolSize" value="${threadpool.corePoolSize}" />
+		<!-- 线程池维护线程所允许的空闲时间，默认值：60s -->
+		<property name="keepAliveSeconds" value="${threadpool.keepAliveSeconds}" />
+		<!-- 线程池的最大线程数量，默认值：0x7fffffff -->
+		<property name="maxPoolSize" value="${threadpool.maxPoolSize}" />
+		<!-- the capacity for the ThreadPoolExecutor's BlockingQueue，默认值：0x7fffffff -->
+		<property name="queueCapacity" value="${threadpool.queueCapacity}" />
+	</bean>
+</beans>

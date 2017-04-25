@@ -28,6 +28,7 @@
 			<list>
 				<value>classpath:data/druid.properties</value>
 				<value>classpath:data/redis.properties</value>
+				<value>classpath:data/thread.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -42,6 +43,7 @@
 	<import resource="classpath:mybatis/spring-datasource-druid.xml" />
 	<import resource="classpath:spring/spring-redis.xml" />
 	<import resource="classpath:spring/spring-session.xml" />
+	<import resource="classpath:spring/spring-thread.xml" />
 
 	<!-- NoSuchBeanDefinitionException: No qualifying bean of type [org.springframework.scheduling.TaskScheduler] 
 		is defined，http://blog.csdn.net/oarsman/article/details/52801877 -->
