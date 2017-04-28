@@ -111,7 +111,7 @@
 		    </div>
 		  </div>
 		</div>
-		<script src="../assets/plugins/jquery/jquery-3.1.1.js"></script>
+		<script src="../assets/plugins/jquery/jquery-3.1.1.min.js"></script>
 		<script src="../assets/plugins/bootstrap/js/bootstrap.js"></script>
 		<script src="../assets/plugins/icheck/icheck.js"></script>
 		<script src="../assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>

@@ -65,7 +65,7 @@
 			    </div>
 			</div>
 		</nav>
-	<script src="../assets/plugins/jquery/jquery-3.1.1.js"></script>
+	<script src="../assets/plugins/jquery/jquery-3.1.1.min.js"></script>
 	<script src="../assets/plugins/bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript">
 	
