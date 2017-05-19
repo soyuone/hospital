@@ -62,8 +62,8 @@
 	</listener>
 
 	<!-- ContextLoaderListener初始化的上下文加载的Bean对整个应用程序所共享，一般如Dao层、Service层的Bean -->
-	<!-- DispatcherServlet初始化的上下文加载的Bean只对Spring web mvc有效，如Controller、HandlerMapping、HandlerAdapter等，只加载web相关组件 -->
-	<!-- load-on-startup表示启动容器时创建该Servlet实例 -->
+	<!-- DispatcherServlet初始化的上下文加载的Bean只对spring web mvc有效，如Controller、HandlerMapping、HandlerAdapter等，只加载web相关组件 -->
+	<!-- load-on-startup表示启动容器时创建该servlet实例 -->
 	<servlet>
 		<servlet-name>dispatcherServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

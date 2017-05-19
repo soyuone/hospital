@@ -45,7 +45,7 @@
 		<property name="poolConfig" ref="jedisPoolConfig" />
 	</bean>
 
-	<!-- Spring对Redis的封装，http://www.cnblogs.com/tankaixiong/p/3660075.html http://www.tuicool.com/articles/3aAbMz -->
+	<!-- spring对redis的封装，http://www.cnblogs.com/tankaixiong/p/3660075.html http://www.tuicool.com/articles/3aAbMz -->
 	<!-- spring-data-redis版本问题，http://blog.csdn.net/forlovedoit/article/details/52692910 -->
 	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
 		<property name="connectionFactory" ref="jedisConnectionFactory" />

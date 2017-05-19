@@ -7,12 +7,12 @@
     http://www.springframework.org/schema/util
     http://www.springframework.org/schema/util/spring-util-4.2.xsd">
 
-	<!-- 使用spring-session把HttpSession放入Redis中，从而实现HttpSession共享，http://www.cnblogs.com/avivaye/p/4935137.html 
+	<!-- 使用spring-session把HttpSession放入redis中，从而实现HttpSession共享，http://www.cnblogs.com/avivaye/p/4935137.html 
 		http://blog.csdn.net/wwd0501/article/details/51484671 http://blog.csdn.net/zdsdiablo/article/details/50428212 
 		http://blog.csdn.net/xiejx618/article/details/42919327 -->
 	<bean
 		class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
-		<!-- Redis-Key的有效期，不是 HttpSession的有效期，默认值：1800秒 -->
+		<!-- redis key的有效期，不是 HttpSession的有效期，默认值：1800秒 -->
 		<property name="maxInactiveIntervalInSeconds" value="172800" />
 	</bean>
 

@@ -1,1 +1,12 @@
-项目框架：Spring Framework + Spring MVC + Spring Session + MyBatis + Druid + MySQL + Redis
+# hospital - a learning project
+
+## 后端技术
+
+* Spring Framework
+* Spring MVC
+* MyBatis
+* Redis
+* Spring Session
+* Druid
+* MySQL
+
