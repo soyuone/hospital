@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
 		}
 		Integer num = userMapper.addUser(user);
 		if (num <= 0) {
-			throw new RuntimeException();
+			throw new RuntimeException("注册异常");
 		}
 		return num;
 	}
