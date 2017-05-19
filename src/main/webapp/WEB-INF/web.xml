@@ -160,7 +160,7 @@
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<!-- 通过init-param为该Filter配置参数 -->
+		<!-- 通过init-param为该filter配置参数 -->
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
