@@ -1,4 +1,4 @@
-# hospital - a learning project
+# hospital - a Hospital Information System project
 
 ## 后端技术
 
