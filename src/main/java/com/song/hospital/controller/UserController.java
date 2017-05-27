@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.song.hospital.common.controller.ControllerBase;
 import com.song.hospital.common.util.CommonUtil;
+import com.song.hospital.common.util.CookieUtil;
 import com.song.hospital.common.util.IConstant;
 import com.song.hospital.common.util.MD5Util;
 import com.song.hospital.common.util.ResultInfo;
@@ -84,7 +85,7 @@ public class UserController extends ControllerBase {
 			}
 
 			String passwordsalt = email;
-			user.setUsername(CommonUtil.generateId());
+			user.setUsername(CommonUtil.generateIdNoLine());
 			user.setPasswordsalt(passwordsalt);// 密码盐
 			user.setPassword(MD5Util.getSaltPassword(password, passwordsalt));// 密码加盐
 
@@ -151,6 +152,72 @@ public class UserController extends ControllerBase {
 					HttpSession httpSession = request.getSession();
 					httpSession.setAttribute("_USER_", userVO);
 					// super.saveSessionUser(userVO, 7200);
+
+					resultInfo.setCode(IConstant.SUCCESS);
+					resultInfo.setMsg("登录成功");
+				}
+				else {
+					resultInfo.setCode(IConstant.FAILURE);
+					resultInfo.setMsg("密码错误");
+				}
+			}
+			else {
+				resultInfo.setCode(IConstant.FAILURE);
+				resultInfo.setMsg("用户不存在");
+			}
+		}
+		catch (Exception e) {
+			log.error(e.getLocalizedMessage(), e);
+			resultInfo.setCode(IConstant.FAILURE);
+			resultInfo.setMsg("登录失败");
+		}
+		return resultInfo;
+	}
+
+	/**
+	 * <p>
+	 * Description:[登录，cookie方式]
+	 * </p>
+	 * Created by [SOYU] [2017年4月23日] Midified by [修改人] [修改时间]
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/login/cookie", method = RequestMethod.POST)
+	@ResponseBody
+	public ResultInfo loginByCookie(HttpServletRequest request, HttpServletResponse response) {
+		ResultInfo resultInfo = ResultInfo.newResultInfo();
+		// 获取参数
+		String email = request.getParameter("email");// Email
+		String password = request.getParameter("password");// 登录密码
+
+		// 空值校验
+		if (StringUtils.isBlank(email) || StringUtils.isBlank(password)) {
+			resultInfo.setCode(IConstant.FAILED_DATA_NOINPUT);
+			resultInfo.setMsg("参数错误");
+			return resultInfo;
+		}
+
+		try {
+			UserBean user = new UserBean();
+			user.setEmail(email);
+
+			List<UserBean> userList = userService.getUserByParamMap(user);
+			if (null != userList && userList.size() > 0) {
+				UserBean userInfo = userList.get(0);
+				String passwordInDB = userInfo.getPassword();
+				String salt = userInfo.getPasswordsalt();
+
+				String passwordInput = MD5Util.getSaltPassword(password, salt);
+				if (null == passwordInDB) {
+					resultInfo.setCode(IConstant.FAILURE);
+					resultInfo.setMsg("用户信息不完整，请联系管理员");
+				}
+				else if (passwordInDB.equalsIgnoreCase(passwordInput)) {
+					// 设置cookie
+					CookieUtil.setCookie(response, IConstant.HOSPITAL_COOKIE_EMAIL, email);
+					CookieUtil.setCookie(response, IConstant.HOSPITAL_COOKIE_PASSWORD, password);
 
 					resultInfo.setCode(IConstant.SUCCESS);
 					resultInfo.setMsg("登录成功");

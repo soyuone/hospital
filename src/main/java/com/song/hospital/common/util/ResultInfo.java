@@ -1,10 +1,13 @@
 package com.song.hospital.common.util;
 
+/**
+ * 返回信息工具类
+ */
 public class ResultInfo {
 
-	protected int code;// <成功/失败/错误等状态码>
+	protected int code; // <成功/失败/错误等状态码>
 
-	protected String msg;// <成功/失败/错误时的额外信息>
+	protected String msg; // <成功/失败/错误时的额外信息>
 
 	public ResultInfo() {
 
@@ -15,9 +18,6 @@ public class ResultInfo {
 		this.msg = msg;
 	}
 
-	/**
-	 * 创建一个空消息对象
-	 */
 	public static ResultInfo newResultInfo() {
 		return new ResultInfo();
 	}
