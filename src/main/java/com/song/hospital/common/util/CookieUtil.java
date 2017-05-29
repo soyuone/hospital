@@ -59,6 +59,7 @@ public class CookieUtil {
 		if (null == cookies) {
 			return cookieMap;
 		}
+
 		for (Cookie cookie : cookies) {
 
 			String name = cookie.getName();
@@ -128,8 +129,5 @@ public class CookieUtil {
 		cookie.setPath("/");
 
 		response.addCookie(cookie);
-
-		// String key = SESSION_USERVO_KEY_PREFIX + token;
-		// redisBaseDAO.deleteByKey(key);
 	}
 }

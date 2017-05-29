@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +21,7 @@ import com.song.hospital.common.util.CookieUtil;
 import com.song.hospital.common.util.IConstant;
 import com.song.hospital.common.util.MD5Util;
 import com.song.hospital.common.util.ResultInfo;
+import com.song.hospital.common.util.SessionUtil;
 import com.song.hospital.entity.UserBean;
 import com.song.hospital.service.UserService;
 import com.song.hospital.vo.UserVO;
@@ -130,6 +130,7 @@ public class UserController extends ControllerBase {
 
 		try {
 			UserBean user = new UserBean();
+			
 			user.setEmail(email);
 
 			List<UserBean> userList = userService.getUserByParamMap(user);
@@ -137,7 +138,7 @@ public class UserController extends ControllerBase {
 				UserBean userInfo = userList.get(0);
 				String passwordInDB = userInfo.getPassword();
 				String salt = userInfo.getPasswordsalt();
-
+				
 				String passwordInput = MD5Util.getSaltPassword(password, salt);
 				if (null == passwordInDB) {
 					resultInfo.setCode(IConstant.FAILURE);
@@ -145,14 +146,11 @@ public class UserController extends ControllerBase {
 				}
 				else if (passwordInDB.equalsIgnoreCase(passwordInput)) {
 					UserVO userVO = new UserVO();
+
 					BeanUtils.copyProperties(userVO, userInfo);
-					userVO.setToken(CommonUtil.generateId());
 
-					// 使用spring-session把HttpSession放入Redis中
-					HttpSession httpSession = request.getSession();
-					httpSession.setAttribute("_USER_", userVO);
-					// super.saveSessionUser(userVO, 7200);
-
+					// 使用spring-session把HttpSession存入redis中
+					SessionUtil.setSessionAttribute(request, IConstant.HOSPITAL_SESSION, userVO);
 					resultInfo.setCode(IConstant.SUCCESS);
 					resultInfo.setMsg("登录成功");
 				}
@@ -201,6 +199,7 @@ public class UserController extends ControllerBase {
 
 		try {
 			UserBean user = new UserBean();
+			
 			user.setEmail(email);
 
 			List<UserBean> userList = userService.getUserByParamMap(user);

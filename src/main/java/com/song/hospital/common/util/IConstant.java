@@ -119,5 +119,10 @@ public class IConstant {
 
 	public static final int HOSPITAL_COOKIE_MAXAGE = 60 * 10;// cookie最大存活时长
 
+	/**
+	 * session
+	 */
+	public static final String HOSPITAL_SESSION = "_USER_"; // session名称
+
 	public static final String SESSION_USERVO_KEY_PREFIX = "session:uservo:";
 }
