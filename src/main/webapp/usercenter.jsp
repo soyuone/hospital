@@ -6,9 +6,9 @@
 <title>Hospital</title>
 </head>
 <body>
-	<h1 style="text-align: center">这是${_USER_.email}的个人中心页面，位于Tomcat 2</h1>
+	<h1 style="text-align: center">这是${session_user_key.email}的个人中心页面，位于Tomcat 2</h1>
 	<div style="text-align: center">
-		<p style="font-size: 15px">欢迎您，尊敬的${_USER_.username}</p>
+		<p style="font-size: 15px">欢迎您，尊敬的${session_user_key.username}</p>
 	</div>
 </body>
 </html>

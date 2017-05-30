@@ -21,7 +21,6 @@ public class WebsiteConfig {
 		if (null == initOptions || initOptions.isEmpty()) {
 			return;
 		}
-
 		// 获取调试模式
 		String debugmodeStr = initOptions.get("debugmode");
 		if (StringUtils.isNotBlank(debugmodeStr)) {

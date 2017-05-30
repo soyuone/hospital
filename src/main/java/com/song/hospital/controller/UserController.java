@@ -75,6 +75,7 @@ public class UserController extends ControllerBase {
 
 		try {
 			UserBean user = new UserBean();
+
 			user.setEmail(email);
 
 			// 检查该email是否已被注册
@@ -130,15 +131,15 @@ public class UserController extends ControllerBase {
 
 		try {
 			UserBean user = new UserBean();
-			
+
 			user.setEmail(email);
 
 			List<UserBean> userList = userService.getUserByParamMap(user);
 			if (null != userList && userList.size() > 0) {
 				UserBean userInfo = userList.get(0);
+
 				String passwordInDB = userInfo.getPassword();
 				String salt = userInfo.getPasswordsalt();
-				
 				String passwordInput = MD5Util.getSaltPassword(password, salt);
 				if (null == passwordInDB) {
 					resultInfo.setCode(IConstant.FAILURE);
@@ -150,7 +151,8 @@ public class UserController extends ControllerBase {
 					BeanUtils.copyProperties(userVO, userInfo);
 
 					// 使用spring-session把HttpSession存入redis中
-					SessionUtil.setSessionAttribute(request, IConstant.HOSPITAL_SESSION, userVO);
+					SessionUtil.setSessionAttribute(request, IConstant.SESSION_USER_KEY, userVO);
+
 					resultInfo.setCode(IConstant.SUCCESS);
 					resultInfo.setMsg("登录成功");
 				}
@@ -199,15 +201,15 @@ public class UserController extends ControllerBase {
 
 		try {
 			UserBean user = new UserBean();
-			
+
 			user.setEmail(email);
 
 			List<UserBean> userList = userService.getUserByParamMap(user);
 			if (null != userList && userList.size() > 0) {
 				UserBean userInfo = userList.get(0);
+
 				String passwordInDB = userInfo.getPassword();
 				String salt = userInfo.getPasswordsalt();
-
 				String passwordInput = MD5Util.getSaltPassword(password, salt);
 				if (null == passwordInDB) {
 					resultInfo.setCode(IConstant.FAILURE);
@@ -217,6 +219,80 @@ public class UserController extends ControllerBase {
 					// 设置cookie
 					CookieUtil.setCookie(response, IConstant.HOSPITAL_COOKIE_EMAIL, email);
 					CookieUtil.setCookie(response, IConstant.HOSPITAL_COOKIE_PASSWORD, password);
+
+					resultInfo.setCode(IConstant.SUCCESS);
+					resultInfo.setMsg("登录成功");
+				}
+				else {
+					resultInfo.setCode(IConstant.FAILURE);
+					resultInfo.setMsg("密码错误");
+				}
+			}
+			else {
+				resultInfo.setCode(IConstant.FAILURE);
+				resultInfo.setMsg("用户不存在");
+			}
+		}
+		catch (Exception e) {
+			log.error(e.getLocalizedMessage(), e);
+			resultInfo.setCode(IConstant.FAILURE);
+			resultInfo.setMsg("登录失败");
+		}
+		return resultInfo;
+	}
+
+	/**
+	 * <p>
+	 * Description:[登录，redis方式]
+	 * </p>
+	 * Created by [SOYU] [2017年4月23日] Midified by [修改人] [修改时间]
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/login/redis", method = RequestMethod.POST)
+	@ResponseBody
+	public ResultInfo loginByRedis(HttpServletRequest request, HttpServletResponse response) {
+		ResultInfo resultInfo = ResultInfo.newResultInfo();
+		// 获取参数
+		String email = request.getParameter("email");// Email
+		String password = request.getParameter("password");// 登录密码
+
+		// 空值校验
+		if (StringUtils.isBlank(email) || StringUtils.isBlank(password)) {
+			resultInfo.setCode(IConstant.FAILED_DATA_NOINPUT);
+			resultInfo.setMsg("参数错误");
+			return resultInfo;
+		}
+
+		try {
+			UserBean user = new UserBean();
+
+			user.setEmail(email);
+
+			List<UserBean> userList = userService.getUserByParamMap(user);
+			if (null != userList && userList.size() > 0) {
+				UserBean userInfo = userList.get(0);
+
+				String passwordInDB = userInfo.getPassword();
+				String salt = userInfo.getPasswordsalt();
+				String passwordInput = MD5Util.getSaltPassword(password, salt);
+				if (null == passwordInDB) {
+					resultInfo.setCode(IConstant.FAILURE);
+					resultInfo.setMsg("用户信息不完整，请联系管理员");
+				}
+				else if (passwordInDB.equalsIgnoreCase(passwordInput)) {
+					UserVO userVO = new UserVO();
+
+					BeanUtils.copyProperties(userVO, userInfo);
+					// token
+					String token = CommonUtil.generateId();
+					userVO.setToken(token);
+
+					// 保存至redis，设置cookie
+					super.saveSessionUser(userVO, IConstant.DEFAULT_EXPIRED_SECONDS);
+					CookieUtil.setCookie(response, IConstant.HOSPITAL_COOKIE_TOKEN, token);
 
 					resultInfo.setCode(IConstant.SUCCESS);
 					resultInfo.setMsg("登录成功");

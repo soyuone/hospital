@@ -63,7 +63,7 @@ public class PreProcessFilter implements Filter {
 
 	private final void preProcess(ServletRequest request, ServletResponse response, FilterChain chain) {
 		// clear
-		ControllerBase.clearThreadLoginUser();
+		//ControllerBase.clearThreadLoginUser();
 
 		if (request instanceof HttpServletRequest) {
 			HttpServletRequest hsr = (HttpServletRequest) request;
@@ -78,7 +78,7 @@ public class PreProcessFilter implements Filter {
 
 	private final void afterProcess(ServletRequest request, ServletResponse response) {
 		// clear
-		ControllerBase.clearThreadLoginUser();
+		//ControllerBase.clearThreadLoginUser();
 	}
 
 	/**

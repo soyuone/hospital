@@ -3,7 +3,7 @@ package com.song.hospital.common.redis;
 import java.io.Serializable;
 
 /**
- * Redis工具类
+ * redis工具类
  */
 public interface RedisBaseDao {
 

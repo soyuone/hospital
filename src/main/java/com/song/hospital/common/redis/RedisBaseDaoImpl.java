@@ -7,26 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.song.hospital.common.util.IConstant;
+
 /**
- * Redis实现类
+ * redis实现类
  */
 @Repository("redisBaseDaoImpl")
 public class RedisBaseDaoImpl implements RedisBaseDao {
 
-	public static String PRE_FIX = "";// 前缀字符串
-
-	public static Long DEFAULT_EXPIRED_SECONDS = TimeUnit.DAYS.toSeconds(60);// 默认cache过期时间（秒）
-
-	public static String BYTE_CODE = "UTF-8";
-
 	@Autowired
 	protected RedisTemplate<String, Serializable> redisTemplate;
 
-	/**
-	 * 给KEY加上前缀
-	 */
+	// 给key加上前缀
 	protected String prefixKey(String key) {
-		return PRE_FIX + key;
+		return IConstant.NULL_STR + key;
 	}
 
 	@Override
@@ -43,7 +37,7 @@ public class RedisBaseDaoImpl implements RedisBaseDao {
 
 	@Override
 	public boolean saveObject(String key, Serializable value) {
-		int seconds = DEFAULT_EXPIRED_SECONDS.intValue();
+		int seconds = IConstant.DEFAULT_EXPIRED_SECONDS;
 		boolean result = saveObject(key, value, seconds);
 		return result;
 	}

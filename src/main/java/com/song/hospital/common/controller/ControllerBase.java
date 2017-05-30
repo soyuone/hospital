@@ -2,38 +2,43 @@ package com.song.hospital.common.controller;
 
 import java.io.Serializable;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.song.hospital.common.redis.RedisBaseDao;
+import com.song.hospital.common.util.CookieUtil;
+import com.song.hospital.common.util.IConstant;
+import com.song.hospital.common.util.SessionUtil;
 import com.song.hospital.vo.UserVO;
 
 /**
- * spring mvc控制器层的基类，对session访问提供统一方法，子类应该使用基类提供的方法，以方便今后的集群部署（届时只需要修改此类中的实现即可）
+ * spring mvc控制器层的基类
  */
 public abstract class ControllerBase {
 
 	protected Logger log = LoggerFactory.getLogger(ControllerBase.class);
 
-	public static final String UTF_8 = "UTF-8";
-
-	// 会话中存储user信息的KEY
-	public static final String SESSION_USER_KEY = "session_user_key";
-
-	public static final String SESSION_USERVO_KEY_PREFIX = "sessions:uservo:token:";
-
-	// 创建线程本地变量
-	protected static final ThreadLocal<UserVO> currentLoginUser = new ThreadLocal<UserVO>();
-
 	@Autowired
 	protected RedisBaseDao redisBaseDao;
+
+	// 创建线程本地变量
+	// protected static final ThreadLocal<UserVO> currentLoginUser = new ThreadLocal<UserVO>();
 
 	/**
 	 * Removes the current thread's value for this thread-local variable.
 	 */
-	public static void clearThreadLoginUser() {
-		currentLoginUser.remove();
+	// public static void clearThreadLoginUser() {
+	// currentLoginUser.remove();
+	// }
+
+	/**
+	 * 基于Redis的实现，从Cache获取对象
+	 */
+	public Object getFromCache(String name) {
+		return redisBaseDao.getObject(name);
 	}
 
 	/**
@@ -57,8 +62,11 @@ public abstract class ControllerBase {
 		if (null == userVO) {
 			return;
 		}
+		// token
 		String token = userVO.getToken();
-		String key = SESSION_USERVO_KEY_PREFIX + token;
+		// redis key
+		String key = IConstant.SESSION_USERVO_TOKEN_PREFIX + token;
+		// redis key有效期
 		if (seconds > 0) {
 			saveToCache(key, userVO, seconds);
 		}
@@ -68,9 +76,33 @@ public abstract class ControllerBase {
 	}
 
 	/**
-	 * 基于Redis的实现，从Cache获取对象
+	 * 获取当前登录的用户
+	 *
+	 * @param request
+	 * @return
 	 */
-	public Object getFromCache(String name) {
-		return redisBaseDao.getObject(name);
+	public UserVO getLoginUser(HttpServletRequest request) {
+		if (null == request) {
+			return null;
+		}
+		//
+		UserVO userVO = new UserVO();
+		// cookie
+		String token = CookieUtil.getUserToken(request);
+		if (null == token || token.trim().isEmpty()) {
+			return null;
+		}
+		// redis key
+		String key = IConstant.SESSION_USERVO_TOKEN_PREFIX + token;
+
+		Object obj = redisBaseDao.getObject(key);
+		//
+		if (obj instanceof UserVO) {
+			userVO = (UserVO) obj;
+			SessionUtil.setSessionAttribute(request, IConstant.SESSION_USER_KEY, userVO);
+			return userVO;
+		}
+		return null;
 	}
+
 }

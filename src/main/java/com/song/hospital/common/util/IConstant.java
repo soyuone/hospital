@@ -122,7 +122,9 @@ public class IConstant {
 	/**
 	 * session
 	 */
-	public static final String HOSPITAL_SESSION = "_USER_"; // session名称
+	public static final String SESSION_USER_KEY = "session_user_key"; // session名称
 
-	public static final String SESSION_USERVO_KEY_PREFIX = "session:uservo:";
+	public static final String SESSION_USERVO_TOKEN_PREFIX = "session:uservo:token:"; // redis key
+
+	public static final int DEFAULT_EXPIRED_SECONDS = 60 * 10;// redis cache过期时间
 }
